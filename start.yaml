@@ -1,0 +1,5 @@
+- name: Setup NTP Agent
+  hosts: all
+  become: true
+  roles:
+    - ntp_agent

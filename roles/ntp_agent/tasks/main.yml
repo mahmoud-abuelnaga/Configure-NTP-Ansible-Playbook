@@ -1,0 +1,47 @@
+# tasks file for ntp_agent
+- name: Install ntp on ubuntu machine
+  when: ansible_distribution == "Ubuntu"
+  ansible.builtin.apt:
+    name: ntp
+    state: present
+    update_cache: true
+
+- name: Install chrony on centos machine
+  when: ansible_distribution == "CentOS"
+  ansible.builtin.dnf:
+    name: chrony
+    state: present
+
+- name: Start and enable ntp on ubuntu machine
+  when: ansible_distribution == "Ubuntu"
+  ansible.builtin.service:
+    name: ntp
+    state: started
+    enabled: true
+
+- name: Copy ntp config file to ubuntu machines
+  when: ansible_distribution == "Ubuntu"
+  notify: Restart ntp on ubuntu machine
+  ansible.builtin.template:
+    src: templates/template_ntp.conf.j2
+    dest: /etc/ntp.conf
+    owner: "{{ ntp_agent_ntp_config_file_owner }}"
+    group: "{{ ntp_agent_ntp_config_file_group }}"
+    mode: "{{ ntp_agent_ntp_config_file_mode }}"
+
+- name: Start and enable chrony on centos machine
+  when: ansible_distribution == "CentOS"
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: true
+
+- name: Copy ntp config file to centos machines
+  when: ansible_distribution == "CentOS"
+  notify: Restart chrony on centos machine
+  ansible.builtin.template:
+    src: templates/template_chrony.conf.j2
+    dest: /etc/chrony.conf
+    owner: "{{ ntp_agent_ntp_config_file_owner }}"
+    group: "{{ ntp_agent_ntp_config_file_group }}"
+    mode: "{{ ntp_agent_ntp_config_file_mode }}"

@@ -1,0 +1,10 @@
+# defaults file for ntp_agent
+ntp_agent_ntp_servers:
+  - 0.africa.pool.ntp.org
+  - 1.africa.pool.ntp.org
+  - 2.africa.pool.ntp.org
+  - 3.africa.pool.ntp.org
+
+ntp_agent_ntp_config_file_owner: root
+ntp_agent_ntp_config_file_group: root
+ntp_agent_ntp_config_file_mode: '0444'

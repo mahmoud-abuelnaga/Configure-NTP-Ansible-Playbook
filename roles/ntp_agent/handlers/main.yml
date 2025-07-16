@@ -1,0 +1,10 @@
+# handlers file for ntp_agent
+- name: Restart ntp on ubuntu machine
+  ansible.builtin.service:
+    name: ntp
+    state: restarted
+
+- name: Restart chrony on centos machine
+  ansible.builtin.service:
+    name: chronyd
+    state: restarted
